@@ -1,0 +1,20 @@
+# Virtual Environment
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite database
+*.db
+
+# VS Code settings
+.vscode/
+
+# Streamlit cache
+.streamlit/
+
+# OS files
+.DS_Store
+Thumbs.db
