@@ -3,14 +3,10 @@ import sqlite3
 connection = sqlite3.connect("data/sensor_data.db")
 cursor = connection.cursor()
 
-cursor.execute("SELECT * FROM sensor_data")
+cursor.execute("PRAGMA table_info(sensor_data)")
+columns = cursor.fetchall()
 
-rows = cursor.fetchall()
+print("\nColumns in sensor_data table:\n")
 
-if rows:
-    for row in rows:
-        print(row)
-else:
-    print("No data found in the table.")
-
-connection.close()
+for column in columns:
+    print(column)

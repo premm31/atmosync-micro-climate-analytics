@@ -1,0 +1,11 @@
+commodity,market_price,safe_temp,max_humidity
+Avocados,180,6,80
+Bananas,60,13,85
+Tomatoes,45,8,85
+Mangoes,120,10,85
+Apples,200,4,75
+Potatoes,35,10,90
+Onions,40,15,85
+Grapes,150,2,80
+Oranges,90,5,80
+Pomegranates,220,7,75
