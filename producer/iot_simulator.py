@@ -1,8 +1,8 @@
 import json
 import random
 import time
+import sqlite3
 from datetime import datetime
-
 import pandas as pd
 from kafka import KafkaProducer
 

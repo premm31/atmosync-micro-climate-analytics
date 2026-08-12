@@ -1,37 +1,28 @@
 from kafka import KafkaConsumer
-import sqlite3
 import json
+import snowflake.connector
+from dotenv import load_dotenv
+import os
 
-# Connect to SQLite database
-connection = sqlite3.connect("data/sensor_data.db")
-cursor = connection.cursor()
+load_dotenv()
 
-# Create table if it doesn't exist
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS sensor_data (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    container_id TEXT,
-    commodity TEXT,
-    temperature REAL,
-    humidity REAL,
-    vibration REAL,
-    market_price REAL,
-    safe_temp REAL,
-    max_humidity REAL,
-    origin TEXT,
-    destination TEXT,
-    distance_remaining REAL,
-    timestamp TEXT
+# Connect to Snowflake
+conn = snowflake.connector.connect(
+    account=os.getenv("SNOWFLAKE_ACCOUNT"),
+    user=os.getenv("SNOWFLAKE_USER"),
+    password=os.getenv("SNOWFLAKE_PASSWORD"),
+    warehouse=os.getenv("SNOWFLAKE_WAREHOUSE"),
+    database=os.getenv("SNOWFLAKE_DATABASE"),
+    schema=os.getenv("SNOWFLAKE_SCHEMA")
 )
-""")
 
-connection.commit()
+cursor = conn.cursor()
 
 # Connect to Kafka
 consumer = KafkaConsumer(
     "container_sensor_data",
     bootstrap_servers="localhost:9092",
-    auto_offset_reset="latest",
+    auto_offset_reset="earliest",
     value_deserializer=lambda x: json.loads(x.decode("utf-8"))
 )
 
@@ -43,21 +34,22 @@ for message in consumer:
     print("Received:", data)
 
     cursor.execute("""
-    INSERT INTO sensor_data (
-        container_id,
-        commodity,
-        temperature,
-        humidity,
-        vibration,
-        market_price,
-        safe_temp,
-        max_humidity,
-        origin,
-        destination,
-        distance_remaining,
-        timestamp
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO SENSOR_DATA
+        (
+            CONTAINER_ID,
+            COMMODITY,
+            TEMPERATURE,
+            HUMIDITY,
+            VIBRATION,
+            MARKET_PRICE,
+            SAFE_TEMP,
+            MAX_HUMIDITY,
+            ORIGIN,
+            DESTINATION,
+            DISTANCE_REMAINING,
+            TIMESTAMP
+        )
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """, (
         data["container_id"],
         data["commodity"],
@@ -73,4 +65,4 @@ for message in consumer:
         data["timestamp"]
     ))
 
-    connection.commit()
+    conn.commit()

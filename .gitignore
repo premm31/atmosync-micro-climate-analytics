@@ -1,20 +1,67 @@
-# Virtual Environment
-venv/
-
-# Python cache
+# ==============================
+# Python
+# ==============================
 __pycache__/
 *.py[cod]
-*$py.class
+*.pyo
 
-# SQLite database
+# ==============================
+# Virtual Environment
+# ==============================
+venv/
+.venv/
+env/
+
+# ==============================
+# Environment Variables / Secrets
+# ==============================
+.env
+.env.*
+
+# ==============================
+# Local Databases
+# ==============================
 *.db
+*.sqlite
+*.sqlite3
 
-# VS Code settings
+# ==============================
+# Logs
+# ==============================
+logs/
+*.log
+
+# ==============================
+# dbt Generated Files
+# ==============================
+atmosync_dbt/target/
+atmosync_dbt/logs/
+
+# ==============================
+# VS Code
+# ==============================
 .vscode/
 
-# Streamlit cache
-.streamlit/
+# ==============================
+# Power BI Temporary Files
+# ==============================
+*.pbit
 
-# OS files
+# ==============================
+# OS Files
+# ==============================
 .DS_Store
 Thumbs.db
+
+# ==============================
+# Local Recordings / Large Files
+# ==============================
+*.mp4
+*.mov
+*.avi
+
+# ==============================
+# Local Project Documentation
+# ==============================
+AtmoSync_Professional_Commits_Guide.pdf
+*.pbix

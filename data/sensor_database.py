@@ -1,8 +1,7 @@
 import sqlite3
 
-# Connect to the database (creates it if it doesn't exist)
+# Connect to database
 connection = sqlite3.connect("data/sensor_data.db")
-
 cursor = connection.cursor()
 
 # Create table
@@ -23,3 +22,9 @@ CREATE TABLE IF NOT EXISTS sensor_data (
     timestamp TEXT
 )
 """)
+
+connection.commit()
+
+print("Database and table created successfully!")
+
+connection.close()

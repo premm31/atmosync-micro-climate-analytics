@@ -3,10 +3,25 @@ import sqlite3
 connection = sqlite3.connect("data/sensor_data.db")
 cursor = connection.cursor()
 
-cursor.execute("PRAGMA table_info(sensor_data)")
-columns = cursor.fetchall()
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS sensor_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    container_id TEXT,
+    commodity TEXT,
+    temperature REAL,
+    humidity REAL,
+    vibration REAL,
+    market_price REAL,
+    safe_temp REAL,
+    max_humidity REAL,
+    origin TEXT,
+    destination TEXT,
+    distance_remaining REAL,
+    timestamp TEXT
+)
+""")
 
-print("\nColumns in sensor_data table:\n")
+connection.commit()
+connection.close()
 
-for column in columns:
-    print(column)
+print("sensor_data table created successfully.")

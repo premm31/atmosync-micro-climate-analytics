@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: sensor_summary
+    description: Summary of sensor data
+
+    columns:
+      - name: COMMODITY
+        tests:
+          - not_null
+
+      - name: AVG_TEMPERATURE
+        tests:
+          - not_null
+
+      - name: AVG_HUMIDITY
+        tests:
+          - not_null
